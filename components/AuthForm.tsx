@@ -23,15 +23,12 @@ import { authFormSchema } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
-import SignUp from '@/app/(auth)/sign-up/page';
 import PlaidLink from './PlaidLink';
-// import PlaidLink from './PlaidLink';
 
 const AuthForm = ({ type }: { type: string }) => {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  
 
   const formSchema = authFormSchema(type);
 
@@ -46,17 +43,12 @@ const AuthForm = ({ type }: { type: string }) => {
    
     // 2. Define a submit handler.
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        setIsLoading(true);
-
-        
-    
-      
+      setIsLoading(true);
 
       try {
-        //Sign up with Appwrite & create plaid token
+        // Sign up with Appwrite & create plaid token
         
         if(type === 'sign-up') {
-         
           const userData = {
             firstName: data.firstName!,
             lastName: data.lastName!,
@@ -82,7 +74,7 @@ const AuthForm = ({ type }: { type: string }) => {
           })
 
           if(response) router.push('/')
-         }
+        }
       } catch (error) {
         console.log(error);
       } finally {
@@ -122,14 +114,12 @@ const AuthForm = ({ type }: { type: string }) => {
       </header>
       {user ? (
         <div className="flex flex-col gap-4">
-          <PlaidLink user={user } variant="primary" />
+          <PlaidLink user={user} variant="primary" />
         </div>
-       ): ( 
+      ): (
         <>
           <Form {...form}>
-            <form
-             onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               {type === 'sign-up' && (
                 <>
                   <div className="flex gap-4">
@@ -147,8 +137,7 @@ const AuthForm = ({ type }: { type: string }) => {
                     <CustomInput control={form.control} name='ssn' label="SSN" placeholder='Example: 1234' />
                   </div>
                 </>
-               )
-              }
+              )}
 
               <CustomInput control={form.control} name='email' label="Email" placeholder='Enter your email' />
 
@@ -179,8 +168,7 @@ const AuthForm = ({ type }: { type: string }) => {
             </Link>
           </footer>
         </>
-        )
-      } 
+      )}
     </section>
   )
 }
